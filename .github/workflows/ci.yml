@@ -1,0 +1,25 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Instalar las dependencias
+        run: uv sync --frozen --python 3.13
+
+      - name: Revisar el código con Ruff
+        run: uv run --no-sync python -m ruff check .
+
+      - name: Comprobar el formato
+        run: uv run --no-sync python -m ruff format --check .
+
+      - name: Ejecutar las pruebas
+        run: uv run --no-sync python -m pytest -q
