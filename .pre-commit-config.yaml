@@ -1,0 +1,26 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-linter
+        name: Revisar el código con Ruff
+        entry: uv run --no-sync python -m ruff check --fix
+        language: system
+        types: [python]
+
+      - id: check-formatter
+        name: Aplicar el formato con Ruff
+        entry: uv run --no-sync python -m ruff format
+        language: system
+        types: [python]
+
+      - id: check-type-safety
+        name: Comprobar los tipos con Pyright
+        entry: uv run --no-sync python -m pyright
+        language: system
+        pass_filenames: false
+
+      - id: run-unit-tests
+        name: Ejecutar las pruebas
+        entry: uv run --no-sync python -m pytest -q
+        language: system
+        pass_filenames: false
